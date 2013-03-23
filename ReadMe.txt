@@ -2,6 +2,9 @@ This is a Kinect application that can be used to control the left
 and right arrow keys by swiping left and right with your hands.
 This application is meant for use only with a Windows Kinect Device!
 
+Please note that this version requires version 1.7 of the
+Microsoft Kinect SDK to compile.
+
 Copyright (C) 2013 GEMISIS
 
 This program is free software: you can redistribute it and/or modify
