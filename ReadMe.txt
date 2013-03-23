@@ -1,5 +1,5 @@
-
-
+This is a Kinect application that can be used to control the left
+and right arrow keys by swiping left and right with your hands.
 This application is meant for use only with a Windows Kinect Device!
 
 Copyright (C) 2013 GEMISIS
