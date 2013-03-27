@@ -5,7 +5,7 @@ This application is meant for use only with a Windows Kinect Device!
 Please note that this version requires version 1.7 of the
 Microsoft Kinect SDK to compile.
 
-Copyright (C) 2013 GEMISIS
+Copyright (C) 2013 Gerald McAlister
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -33,6 +33,8 @@
             this.trackingLabel = new System.Windows.Forms.Label();
             this.swipeLabel = new System.Windows.Forms.Label();
             this.aboutButton = new System.Windows.Forms.Button();
+            this.leftKeyLabel = new System.Windows.Forms.Label();
+            this.rightKeyLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,7 +49,7 @@
             // 
             // onOffButton
             // 
-            this.onOffButton.Location = new System.Drawing.Point(51, 508);
+            this.onOffButton.Location = new System.Drawing.Point(12, 508);
             this.onOffButton.Name = "onOffButton";
             this.onOffButton.Size = new System.Drawing.Size(75, 23);
             this.onOffButton.TabIndex = 1;
@@ -68,7 +70,7 @@
             // swipeLabel
             // 
             this.swipeLabel.AutoSize = true;
-            this.swipeLabel.Location = new System.Drawing.Point(245, 513);
+            this.swipeLabel.Location = new System.Drawing.Point(174, 513);
             this.swipeLabel.Name = "swipeLabel";
             this.swipeLabel.Size = new System.Drawing.Size(62, 13);
             this.swipeLabel.TabIndex = 3;
@@ -76,7 +78,7 @@
             // 
             // aboutButton
             // 
-            this.aboutButton.Location = new System.Drawing.Point(132, 508);
+            this.aboutButton.Location = new System.Drawing.Point(93, 508);
             this.aboutButton.Name = "aboutButton";
             this.aboutButton.Size = new System.Drawing.Size(75, 23);
             this.aboutButton.TabIndex = 4;
@@ -84,18 +86,46 @@
             this.aboutButton.UseVisualStyleBackColor = true;
             this.aboutButton.Click += new System.EventHandler(this.aboutButton_Click);
             // 
+            // leftKeyLabel
+            // 
+            this.leftKeyLabel.AutoSize = true;
+            this.leftKeyLabel.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.leftKeyLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.leftKeyLabel.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.leftKeyLabel.Location = new System.Drawing.Point(242, 500);
+            this.leftKeyLabel.Name = "leftKeyLabel";
+            this.leftKeyLabel.Size = new System.Drawing.Size(72, 15);
+            this.leftKeyLabel.TabIndex = 5;
+            this.leftKeyLabel.Text = "Left Key: Left";
+            this.leftKeyLabel.Click += new System.EventHandler(this.leftKeyLabel_Click);
+            // 
+            // rightKeyLabel
+            // 
+            this.rightKeyLabel.AutoSize = true;
+            this.rightKeyLabel.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.rightKeyLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rightKeyLabel.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.rightKeyLabel.Location = new System.Drawing.Point(242, 518);
+            this.rightKeyLabel.Name = "rightKeyLabel";
+            this.rightKeyLabel.Size = new System.Drawing.Size(86, 15);
+            this.rightKeyLabel.TabIndex = 6;
+            this.rightKeyLabel.Text = "Right Key: Right";
+            this.rightKeyLabel.Click += new System.EventHandler(this.rightKeyLabel_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(668, 543);
+            this.Controls.Add(this.rightKeyLabel);
+            this.Controls.Add(this.leftKeyLabel);
             this.Controls.Add(this.aboutButton);
             this.Controls.Add(this.swipeLabel);
             this.Controls.Add(this.trackingLabel);
             this.Controls.Add(this.onOffButton);
             this.Controls.Add(this.mainImage);
             this.Name = "mainForm";
-            this.Text = "Book Reader";
+            this.Text = "Kinect Flipper";
             ((System.ComponentModel.ISupportInitialize)(this.mainImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -109,6 +139,8 @@
         private System.Windows.Forms.Label trackingLabel;
         private System.Windows.Forms.Label swipeLabel;
         private System.Windows.Forms.Button aboutButton;
+        private System.Windows.Forms.Label leftKeyLabel;
+        private System.Windows.Forms.Label rightKeyLabel;
     }
 }
 

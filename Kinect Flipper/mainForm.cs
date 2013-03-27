@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
 using Microsoft.Kinect;
@@ -18,6 +12,15 @@ namespace Kinect_Flipper
         /// The Kinect sensor that is in use.
         /// </summary>
         private KinectSensor kinect;
+
+        /// <summary>
+        /// The left key stroke to send.
+        /// </summary>
+        private string leftKey = "{LEFT}";
+        /// <summary>
+        /// The right key stroke to send.
+        /// </summary>
+        private string rightKey = "{RIGHT}";
 
         /// <summary>
         /// This event executs when the form is closing.  Turns of the Kinect device
@@ -60,7 +63,7 @@ namespace Kinect_Flipper
                 kinect.SkeletonStream.EnableTrackingInNearRange = true;
                 // Set the skeleton tracking to full body.  While the legs aren't
                 // used, it is useful for PowerPoint presentations.
-                kinect.SkeletonStream.TrackingMode = SkeletonTrackingMode.Default;
+                kinect.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
                 // Don't let the app chose what skeletons to track.
                 kinect.SkeletonStream.AppChoosesSkeletons = false;
                 // Enable Skeleton tracking.
@@ -178,7 +181,7 @@ namespace Kinect_Flipper
                                                         // Update the swipe label text.
                                                         swipeLabel.Text = "Swiped right";
                                                         // Send the correct keystroke.
-                                                        SendKeys.Send("{LEFT}");
+                                                        SendKeys.Send(leftKey);
 
                                                         // Update the old frame.
                                                         oldFrame = frame;
@@ -222,7 +225,7 @@ namespace Kinect_Flipper
                                                         // Update the swipe label text.
                                                         swipeLabel.Text = "Swiped left";
                                                         // Send the correct keystroke.
-                                                        SendKeys.Send("{RIGHT}");
+                                                        SendKeys.Send(rightKey);
 
                                                         // Update the old frame.
                                                         oldFrame = frame;
@@ -344,7 +347,147 @@ namespace Kinect_Flipper
         private void aboutButton_Click(object sender, EventArgs e)
         {
             // Display a message box showing the creator of the program.
-            MessageBox.Show("Created by: GEMISIS", "About");
+            MessageBox.Show("Created by: Gerald McAlister", "About");
+        }
+
+        /// <summary>
+        /// The left key label's click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void leftKeyLabel_Click(object sender, EventArgs e)
+        {
+            // Set the preview key event.
+            leftKeyLabel.PreviewKeyDown += new PreviewKeyDownEventHandler(leftKeyLabel_PreviewKeyDown);
+            // Set the lost focus event.
+            leftKeyLabel.LostFocus += new EventHandler(leftKeyLabel_LostFocus);
+            // Focus on the label.
+            leftKeyLabel.Focus();
+        }
+
+        /// <summary>
+        /// The right key label's click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rightKeyLabel_Click(object sender, EventArgs e)
+        {
+            // Set the preview key event.
+            rightKeyLabel.PreviewKeyDown += new PreviewKeyDownEventHandler(rightKeyLabel_PreviewKeyDown);
+            // Set the lost focus event.
+            rightKeyLabel.LostFocus += new EventHandler(rightKeyLabel_LostFocus);
+            // Focus on the label.
+            rightKeyLabel.Focus();
+        }
+
+        /// <summary>
+        /// The left key label's key preview event.
+        /// </summary>
+        /// <param name="sender">Not used.</param>
+        /// <param name="e">The key arguments.  This is used to get the key.</param>
+        void leftKeyLabel_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            // Check if the key code is not the escape key.
+            if (!e.KeyCode.Equals(Keys.Escape))
+            {
+                // If it is not the escape key, set the left key value.
+                // Start by checking if it is a letter.
+                if (e.KeyValue >= 'A' && e.KeyValue <= 'z')
+                {
+                    // If so, set it to lower case by default.
+                    leftKey = Convert.ToChar(e.KeyValue).ToString().ToLower();
+                    // Then check if caps lock is enabled.
+                    if (IsKeyLocked(Keys.CapsLock))
+                    {
+                        // If so, set the letter to be upper case.
+                        leftKey = leftKey.ToUpper();
+                    }
+                    // Tell the user the left key has been changed.
+                    MessageBox.Show("Set the left key to " + leftKey + "!\n");
+                    // Update the text lable for the left key.
+                    leftKeyLabel.Text = "Left Key: " + leftKey;
+                }
+                // Otherwise check if the key is an arrow key.
+                else if (e.KeyCode.Equals(Keys.Left) || e.KeyCode.Equals(Keys.Right) || e.KeyCode.Equals(Keys.Up) || e.KeyCode.Equals(Keys.Down))
+                {
+                    // If it is not the escape key, set the left key value.
+                    leftKey = "{" + new KeysConverter().ConvertToString(e.KeyCode).ToUpper() + "}";
+                    // Tell the user the left key has been changed.
+                    MessageBox.Show("Set the left key to " + new KeysConverter().ConvertToString(e.KeyCode) + "!\n");
+                    // Update the text lable for the left key.
+                    leftKeyLabel.Text = "Left Key: " + new KeysConverter().ConvertToString(e.KeyCode);
+                }
+            }
+            // Remove the key preview event.
+            leftKeyLabel.PreviewKeyDown -= new PreviewKeyDownEventHandler(leftKeyLabel_PreviewKeyDown);
+            // Focus on the on/off button.
+            this.onOffButton.Focus();
+        }
+
+        /// <summary>
+        /// The right key label's key preview event.
+        /// </summary>
+        /// <param name="sender">Not used.</param>
+        /// <param name="e">The key arguments.  This is used to get the key.</param>
+        void rightKeyLabel_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            // Check if the key code is not the escape key.
+            if (!e.KeyCode.Equals(Keys.Escape))
+            {
+                // If it is not the escape key, set the right key value.
+                // Start by checking if it is a letter.
+                if (e.KeyValue >= 'A' && e.KeyValue <= 'z')
+                {
+                    // If so, set it to lower case by default.
+                    rightKey = Convert.ToChar(e.KeyValue).ToString().ToLower();
+                    // Then check if caps lock is enabled.
+                    if (IsKeyLocked(Keys.CapsLock))
+                    {
+                        // If so, set the letter to be upper case.
+                        rightKey = rightKey.ToUpper();
+                    }
+                    // Tell the user the right key has been changed.
+                    MessageBox.Show("Set the right key to letter " + rightKey + "!\n");
+                    // Update the text lable for the right key.
+                    rightKeyLabel.Text = "Right Key: " + rightKey;
+                }
+                // Otherwise check if the key is an arrow key.
+                else if (e.KeyCode.Equals(Keys.Left) || e.KeyCode.Equals(Keys.Right) || e.KeyCode.Equals(Keys.Up) || e.KeyCode.Equals(Keys.Down))
+                {
+                    // If it is not the escape key, set the right key value.
+                    rightKey = "{" + new KeysConverter().ConvertToString(e.KeyCode).ToUpper() + "}";
+                    // Tell the user the right key has been changed.
+                    MessageBox.Show("Set the right key to " + new KeysConverter().ConvertToString(e.KeyCode) + "!\n");
+                    // Update the text lable for the right key.
+                    rightKeyLabel.Text = "Right Key: " + new KeysConverter().ConvertToString(e.KeyCode);
+                }
+            }
+            // Remove the key preview event.
+            rightKeyLabel.PreviewKeyDown -= new PreviewKeyDownEventHandler(rightKeyLabel_PreviewKeyDown);
+            // Focus on the on/off button.
+            this.onOffButton.Focus();
+        }
+
+        /// <summary>
+        /// The event for when the right key label loses focus.
+        /// </summary>
+        /// <param name="sender">Not used.</param>
+        /// <param name="e">Not used.</param>
+        void rightKeyLabel_LostFocus(object sender, EventArgs e)
+        {
+            // Remove the key preview event.
+            rightKeyLabel.PreviewKeyDown -= new PreviewKeyDownEventHandler(rightKeyLabel_PreviewKeyDown);
+        }
+
+        /// <summary>
+        /// The event for when the left key label loses focus.
+        /// </summary>
+        /// <param name="sender">Not used.</param>
+        /// <param name="e">Not used.</param>
+        void leftKeyLabel_LostFocus(object sender, EventArgs e)
+        {
+            // Remove the key preview event.
+            leftKeyLabel.PreviewKeyDown -= new PreviewKeyDownEventHandler(leftKeyLabel_PreviewKeyDown);
         }
     }
 }
